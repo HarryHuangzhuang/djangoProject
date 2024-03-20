@@ -136,5 +136,8 @@ REST_FRAMEWORK = {
         "ext.auth.QueryParamsAuthentication",
         "ext.auth.HeaderAuthentication",
         "ext.auth.NoAuthentication",
-        ]
+        ],
+    # "DEFAULT_PERMISSION_CLASSES" :[
+    #     "ext.perm.MyPermission",
+    # ]
 }

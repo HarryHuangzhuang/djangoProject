@@ -11,6 +11,7 @@ from api import models
 from ext import code
 class LoginView(APIView):
     authentication_classes = []
+    permission_classes = []
     # api_settings.DEFAULT_AUTHENTICATION_CLASSES
     # def get(self ,request):
     #     return Response("return success") 
@@ -51,12 +52,33 @@ class UserView(APIView):
     def delete(self ,request):
         return Response()
 
-
+from ext.perm import MyPermission1,MyPermission2,MyPermission3
 class OrderView(APIView):
+
+    permission_classes = [MyPermission1,MyPermission2,MyPermission3]
     def get(self ,request):
-        return Response("return success") 
+        print(request.user, request.auth)
+        self.dispatch
+        return Response({"status":True, "data": [11,22,33,44]}) 
     
 
+    def check_permissions(self, request):
+        Permission_objects = self.get_permissions()
+        no_permission_objects = []
+        
+        for permission in Permission_objects:
+            if permission.has_permission(request,self):
+                return 
+            else:
+                no_permission_objects.append(permission)
+             
+        else:
+            self.permission_denied(
+                request,
+                message=getattr(no_permission_objects[0],"message",None),
+                code= getattr(no_permission_objects[0],"code",None)
+            )
+ 
 class InfoView(APIView):
     def get(self ,request):
         return Response("return success") 
