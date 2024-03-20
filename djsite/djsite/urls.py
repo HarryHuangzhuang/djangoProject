@@ -1,5 +1,5 @@
 """
-URL configuration for mysite project.
+URL configuration for djsite project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -16,13 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from firstday import views
+from api import views
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("login/", views.login),
-    path("orm/", views.orm),
-    #用户管理
-    path("info/list/", views.info_list),
-    path("info/add/", views.info_add),
-    path("depart/list/",views.depart_list)
+    # path("admin/", admin.site.urls),
+    path("login/", views.LoginView.as_view()),
+    path("user/", views.UserView.as_view()),
+    # path("user/<int:pk>/", views.UserView.as_view()),
+    
+    # path("Info/<str:dt>/", views.InfoView.as_view()),
+    path("order/", views.OrderView.as_view()),
 ]
+ 
