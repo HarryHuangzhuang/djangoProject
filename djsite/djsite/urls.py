@@ -25,5 +25,6 @@ urlpatterns = [
     
     # path("Info/<str:dt>/", views.InfoView.as_view()),
     path("order/", views.OrderView.as_view()),
+    path("roleorder/", views.RoleOrderView.as_view()),
 ]
  

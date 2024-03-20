@@ -1,31 +1,33 @@
 from rest_framework.permissions import BasePermission
 
-import random
 
-class MyPermission1(BasePermission):
+class UserPermission(BasePermission):
     # code = 403 
     message = {"status" : False , "msg": "无权访问1"}
     def has_permission(self, request, view):
 
         # 获取请求中的数据，然后进行校验
-        print("MyPermission1")
+        if request.user.role == 3:
+            return True
         return False
     
 
-class MyPermission2(BasePermission):
+class ManagerPermission(BasePermission):
     
     message = {"status" : False , "msg": "无权访问2"}
     def has_permission(self, request, view):
 
         # 获取请求中的数据，然后进行校验
-        print("MyPermission2")
+        if request.user.role == 2:
+            return True
         return False
     
-class MyPermission3(BasePermission):
+class BossPermission(BasePermission):
     
     message = {"status" : False , "msg": "无权访问3"}
     def has_permission(self, request, view):
 
         # 获取请求中的数据，然后进行校验
-        print("MyPermission3")
+        if request.user.role == 1:
+            return True
         return False

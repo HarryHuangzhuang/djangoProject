@@ -2,13 +2,11 @@ from rest_framework.response import Response
 import uuid
 # Create your views here.
 from rest_framework import request
-
 from rest_framework.views import APIView
-
-
-
 from api import models
 from ext import code
+from ext.perm import UserPermission, ManagerPermission,BossPermission
+from ext.view import NbAPIView
 class LoginView(APIView):
     authentication_classes = []
     permission_classes = []
@@ -38,9 +36,9 @@ class LoginView(APIView):
 
 
 
-class UserView(APIView):
-
-
+class UserView(NbAPIView):
+    # 总监 或  员工 或 manager
+    permission_classes = [UserPermission, ManagerPermission,BossPermission]
     def get(self ,request):
         print(request.user,request.auth) 
         return Response("return success  ")
@@ -52,33 +50,25 @@ class UserView(APIView):
     def delete(self ,request):
         return Response()
 
-from ext.perm import MyPermission1,MyPermission2,MyPermission3
-class OrderView(APIView):
 
-    permission_classes = [MyPermission1,MyPermission2,MyPermission3]
+class OrderView(NbAPIView):
+     # 总监 或  员工 或 manager
+    permission_classes = [ManagerPermission,BossPermission]
     def get(self ,request):
         print(request.user, request.auth)
         self.dispatch
         return Response({"status":True, "data": [11,22,33,44]}) 
-    
 
-    def check_permissions(self, request):
-        Permission_objects = self.get_permissions()
-        no_permission_objects = []
-        
-        for permission in Permission_objects:
-            if permission.has_permission(request,self):
-                return 
-            else:
-                no_permission_objects.append(permission)
-             
-        else:
-            self.permission_denied(
-                request,
-                message=getattr(no_permission_objects[0],"message",None),
-                code= getattr(no_permission_objects[0],"code",None)
-            )
+class RoleOrderView(NbAPIView):
+    # 总监 或  员工 
+    permission_classes = [ManagerPermission,BossPermission]
+    def get(self ,request):
+        print(request.user, request.auth)
+        self.dispatch
+        return Response({"status":True, "data": [11,22,33,44]}) 
+   
  
 class InfoView(APIView):
     def get(self ,request):
         return Response("return success") 
+    
