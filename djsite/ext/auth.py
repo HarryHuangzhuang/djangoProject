@@ -43,7 +43,5 @@ class HeaderAuthentication(BaseAuthentication):
 class NoAuthentication(BaseAuthentication):
     def authenticate(self,request):
         raise AuthenticationFailed({"status":False,"msg":"认证失败"})
-
-    
     def authenticate_header(self, request):
         return "API"

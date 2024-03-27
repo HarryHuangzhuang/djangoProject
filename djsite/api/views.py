@@ -7,9 +7,13 @@ from api import models
 from ext import code
 from ext.perm import UserPermission, ManagerPermission,BossPermission
 from ext.view import NbAPIView
+
+from ext.throttle import IpThrottle,UserThrottle1
+
 class LoginView(APIView):
     authentication_classes = []
     permission_classes = []
+    throttle_classes= [IpThrottle,]
     # api_settings.DEFAULT_AUTHENTICATION_CLASSES
     # def get(self ,request):
     #     return Response("return success") 
@@ -37,8 +41,9 @@ class LoginView(APIView):
 
 
 class UserView(NbAPIView):
+    # authentication_classes = []
     # 总监 或  员工 或 manager
-    permission_classes = [UserPermission, ManagerPermission,BossPermission]
+    permission_classes = [UserPermission,ManagerPermission,BossPermission]
     def get(self ,request):
         print(request.user,request.auth) 
         return Response("return success  ")
@@ -54,6 +59,7 @@ class UserView(NbAPIView):
 class OrderView(NbAPIView):
      # 总监 或  员工 或 manager
     permission_classes = [ManagerPermission,BossPermission]
+    throttle_classes = [UserThrottle1,IpThrottle]
     def get(self ,request):
         print(request.user, request.auth)
         self.dispatch
@@ -62,6 +68,7 @@ class OrderView(NbAPIView):
 class RoleOrderView(NbAPIView):
     # 总监 或  员工 
     permission_classes = [ManagerPermission,BossPermission]
+    throttle_classes = [UserThrottle1]
     def get(self ,request):
         print(request.user, request.auth)
         self.dispatch

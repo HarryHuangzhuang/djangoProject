@@ -127,6 +127,17 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+CACHES = {
+    "default":{
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS":{
+            "CLIENT_CLASS":"django_redis.client.DefaultClient",
+            # "PASSWORD":"foobared",
+        }
+    }
+}
+
 
 REST_FRAMEWORK = {
     "PAGE_SIZE":2 ,
@@ -137,6 +148,11 @@ REST_FRAMEWORK = {
         "ext.auth.HeaderAuthentication",
         "ext.auth.NoAuthentication",
         ],
+        "DEFAULT_THROTTLE_RATES":{
+            "ip":"10/m",
+            "user":"5/m"
+
+        }
     # "DEFAULT_PERMISSION_CLASSES" :[
     #     "ext.perm.MyPermission",
     # ]
