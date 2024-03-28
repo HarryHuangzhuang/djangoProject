@@ -17,12 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from firstday import views
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("login/", views.login),
     path("orm/", views.orm),
-    #用户管理
+    # 用户管理
     path("info/list/", views.info_list),
     path("info/add/", views.info_add),
-    path("depart/list/",views.depart_list)
+    path("depart/list/", views.depart_list),
 ]

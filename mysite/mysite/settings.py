@@ -55,7 +55,7 @@ ROOT_URLCONF = "mysite.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'templates'], 
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -83,10 +83,10 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "day15", #数据库的名称
-        "USER":"root",
-        "PASSWORD":'hz802310',
-        "HOST":"localhost",
+        "NAME": "day15",  # 数据库的名称
+        "USER": "root",
+        "PASSWORD": "hz802310",
+        "HOST": "localhost",
         "PORT": 3306,
     }
 }
