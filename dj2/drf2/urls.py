@@ -19,6 +19,7 @@ from django.urls import path
 from api import views
 urlpatterns = [
     # path("admin/", admin.site.urls),
-    path("api/home/", views.HomeView.as_view(),name="hh")
-    # path("api/<str:version>/home/", views.HomeView.as_view(),name="hh")
+    # path("api/home/", views.HomeView.as_view(),name="hh")
+    path("api/<str:version>/home/", views.HomeView.as_view(),name="hh")
 ]
+  
