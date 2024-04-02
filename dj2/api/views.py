@@ -1,10 +1,76 @@
 # from django.shortcuts import render
 
 # # Create your views here.
+import datetime
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser,FormParser,FileUploadParser
 from rest_framework.negotiation import DefaultContentNegotiation
+from api import models 
+from rest_framework import serializers
+
+class DepartSerializer(serializers.ModelSerializer):
+    class  Meta:
+        model =models.Depart
+        fields = "__all__"
+
+
+
+class DepartView(APIView):
+    def get(self,request,*args,**akwrgs):
+        #1.获取数据库的数据{id:xxx,title ..}
+       
+       queryset = models.Depart.objects.all()
+        #2.转换成json 格式 : int/str/list
+       
+       ser = DepartSerializer(instance= queryset,many = True)
+
+       print(ser.data) #{title ：“技术不”，count：10}
+        #3.返回个用户
+       context = {"status":True , "data":ser.data}
+       return Response(context)
+
+class UserSerializer(serializers.ModelSerializer):
+    #  source 后面直接接方法名称
+    #  gender = serializers.CharField(source = "get_gender_display")
+    gender_text = serializers.CharField(source = "get_gender_display")
+    ctime = serializers.DateTimeField(format="%Y-%m-%d")
+     
+    xxx = serializers.SerializerMethodField()
+    class  Meta:
+        model =models.UserInfo
+        # fields = "__all__"
+
+        fields = ["name","age","gender","gender_text","ctime","xxx"]
+
+    def get_xxx(self,obj):
+        
+        return "{}-{}-{}".format(obj.name,obj.age,obj.gender)
+
+class UserView(APIView):
+    def get(self,request,*args,**akwrgs):
+        
+        # models.UserInfo.objects.all().update(ctime = datetime.datetime.now()) 
+        #1.获取数据库的数据
+        queryset =  models.UserInfo.objects.all()
+
+      
+        #2.转换成json 格式 : int/str/list
+        ser = UserSerializer(instance= queryset,many = True)
+
+      
+
+     
+        #3.返回个用户
+        context = {"status":True , "data":ser.data}
+        return Response(context)
+
+
+
+
+
+
+
 
 class HomeView(APIView):
     # version_param = api_settings.VERSION_PARAM  因为这句话 所以配置文件里叫啥 传参 叫啥 这里叫version

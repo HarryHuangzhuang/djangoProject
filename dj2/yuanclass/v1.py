@@ -21,16 +21,14 @@ class MyType(type):
     def __new__(cls,name,bases,attrs):
 
         del attrs["v1"]
-
-        xx = super().__new__()
+        attrs["dex"] = "xxxx"
+        xx = super().__new__(cls,name,bases,attrs)
         print("creat ",xx)
+        return xx
 
 
-class Foo(object,metaclass= MyType):
-    v1 =123
-
-    def func(self):
-        pass
-
-
-print(Foo.v1)
+class Base(object,metaclass = MyType):
+    pass
+ 
+class Foo(object,metaclass = MyType):
+    pass

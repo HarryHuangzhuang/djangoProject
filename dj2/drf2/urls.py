@@ -20,6 +20,8 @@ from api import views
 urlpatterns = [
     # path("admin/", admin.site.urls),
     # path("api/home/", views.HomeView.as_view(),name="hh")
-    path("api/<str:version>/home/", views.HomeView.as_view(),name="hh")
+    path("api/<str:version>/home/", views.HomeView.as_view(),name="hh"),
+    path("api/<str:version>/depart/",views.DepartView.as_view(),name="depart"),
+    path("api/<str:version>/user/",views.UserView.as_view()),
 ]
   
